@@ -1,0 +1,54 @@
+# Paramètres de navigation
+nav2:
+  autostart: true
+  use_sim_time: false
+
+# Configuration du planner
+planner_server:
+  planner_plugin: "GridBased"
+  publish_cost_grid_pcl: false
+  publish_cost_grid_pc: false
+  planner_request_adapters: "AddOrientationToPlan,FixPathThroughUnknown"
+
+# Configuration du contrôleur
+controller_server:
+  controller_plugin: "FollowPath"
+  follow_path_timeout: 10.0
+
+# Configuration de la carte
+global_costmap:
+  global_frame: "map"
+  robot_base_frame: "chassis"
+  update_frequency: 1.0
+  publish_frequency: 1.0
+  transform_tolerance: 0.2
+  plugins:
+    - {name: static_layer, type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+  static_layer:
+    map_topic: "map"
+  obstacle_layer:
+    observation_sources: gps
+    gps: {sensor_frame: "gps_link", data_type: "NavSatFix", topic: "/gps/fix"}
+  inflation_layer:
+    inflation_radius: 0.5
+
+# Configuration du suivi de la pose
+pose_follower:
+  controller_plugin: "PurePursuit"
+  lookahead_time: 0.5
+  min_lookahead_distance: 0.1
+  max_lookahead_distance: 1.0
+  lookahead_ratio: 0.5
+  pure_pursuit:
+    tolerance: 0.1
+
+# Configuration de l'IMU
+imu_filter:
+  use_filter: false
+  use_magnetic_declination: true
+  declination_source: "user"
+
+# Configuration de la simulation (optionnelle)
+use_sim_time: true

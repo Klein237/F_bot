@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+    <xacro:arg name="use_ros2_control" default="true"/>
+
+    <xacro:include filename="robot_core2.xacro" />
+
+    <!--xacro:include filename="lidar.xacro" /-->
+    <xacro:include filename="3d_lidar.xacro" />
+    <!--xacro:include filename="camera.xacro" /-->
+    <xacro:include filename="gazebo_d435.xacro" />
+    <!--xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/-->
+    <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
+
+     <xacro:sensor_d435i parent="chassis" name="camera"  publish_pointcloud="true">
+         <origin xyz="0.276 0 0.15" rpy="0 0 0"/>
+     </xacro:sensor_d435i>
+
+    <xacro:if value="$(arg use_ros2_control)">
+        <xacro:include filename="ros2_control.xacro" />
+    </xacro:if>
+    <xacro:unless value="$(arg use_ros2_control)">
+        <xacro:include filename="gazebo_control.xacro" />
+    </xacro:unless>
+   
+
+</robot>
