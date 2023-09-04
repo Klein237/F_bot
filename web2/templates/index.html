@@ -1,0 +1,44 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROS2 Controller</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<!-- Boutons pour les launch files -->
+<button class="launch" data-package="kl_bot" data-launch="kl.launch.py">kl_bot_launch</button>
+<button class="launch" data-package="realsense2_description" data-launch="view_model.launch.py">realsense2_description_launch</button>
+<!-- Ajoutez d'autres boutons pour d'autres launch files si nécessaire -->
+
+<!-- Boutons pour rosbag -->
+<button id="startRosbag">Start Rosbag Recording</button>
+<button id="stopRosbag">Stop Rosbag Recording</button>
+
+<script>
+    $(".launch").click(function() {
+        const pkg = $(this).data("package");
+        const launch = $(this).data("launch");
+        $.post("/launch", { package: pkg, launch_file: launch }, function(data) {
+            alert(data.status);
+        });
+    });
+
+    $("#startRosbag").click(function() {
+        $.post("/start_rosbag", function(data) {
+            alert(data.status);
+        });
+    });
+
+    $("#stopRosbag").click(function() {
+        $.post("/stop_rosbag", function(data) {
+            alert(data.status);
+        });
+    });
+</script>
+
+</body>
+</html>

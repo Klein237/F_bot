@@ -1,0 +1,28 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROS2 Node Controller</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button id="startButton">Start Node</button>
+    <button id="stopButton">Stop Node</button>
+
+    <script>
+        $("#startButton").click(function() {
+            $.post("/start_node", function(data) {
+                alert(data.status);
+            });
+        });
+
+        $("#stopButton").click(function() {
+            $.post("/stop_node", function(data) {
+                alert(data.status);
+            });
+        });
+    </script>
+</body>
+</html>
